@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import "./App.css";
 import theme from "./theme";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ViewportProvider } from "./context/viewport";
 import { ThemeProvider } from "@material-ui/core/styles";
 import RidingRocket from "./assets/characters/RidingRocket.svg";
 import Welcome from "./assets/characters/Welcome.svg";
@@ -21,6 +22,7 @@ import useCachedImages from "./hooks/useCachedImages";
 
 const AsyncHome = asyncComponent(() => import("./pages/HomePage"));
 const AsyncIconList = asyncComponent(() => import("./pages/IconList"));
+const AsyncNewGame = asyncComponent(() => import("./pages/NewGame"));
 
 const images = [
   RidingRocket,
@@ -42,20 +44,24 @@ function App() {
 
   if (isLoading) return <h1>Loading...</h1>;
   return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <NavBar />
-        <div style={{ paddingTop: "120px" }} />
-        <Switch>
-          <Route exact path="/">
-            <AsyncHome />
-          </Route>
-          <Route path="/icon-list">
-            <AsyncIconList />
-          </Route>
-        </Switch>
-      </ThemeProvider>
-    </Router>
+    <ViewportProvider>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <NavBar />
+          <Switch>
+            <Route exact path="/">
+              <AsyncHome />
+            </Route>
+            <Route path="/icon-list">
+              <AsyncIconList />
+            </Route>
+            <Route path="/new-game">
+              <AsyncNewGame />
+            </Route>
+          </Switch>
+        </ThemeProvider>
+      </Router>
+    </ViewportProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
@@ -13,6 +13,14 @@ const theme = createMuiTheme({
       dark: "#C12253",
     },
   },
+  overrides: {
+    MuiButton: {
+      contained: {
+        backgroundColor: "#d8d8d8",
+        fontSize: "13.5px",
+      },
+    },
+  },
 });
 
-export default theme;
+export default responsiveFontSizes(theme);

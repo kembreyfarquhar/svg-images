@@ -5,38 +5,6 @@ import Typography from "@material-ui/core/Typography";
 function HomePage() {
   return (
     <>
-      <div
-        style={{
-          display: "inline-block",
-          position: "absolute",
-          top: 0,
-          zIndex: -50,
-          width: "150vw",
-          height: "200vh",
-          verticalAlign: "middle",
-          overflow: "hidden",
-          paddingBottom: "100%",
-        }}
-      >
-        <svg
-          style={{
-            display: "inline-block",
-            position: "absolute",
-            zIndex: 20,
-            top: 0,
-            left: 0,
-            height: "200vh",
-            width: "150vw",
-          }}
-          viewBox="0 0 500 500"
-          preserveAspectRatio="xMinYMin meet"
-        >
-          <path
-            d="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z"
-            style={{ stroke: "none", fill: "#FFF900" }}
-          ></path>
-        </svg>
-      </div>
       <Container>
         <div
           style={{
@@ -59,8 +27,8 @@ function HomePage() {
             >
               Welcome, Adventurer!
             </Typography>
-            <BrainIdeaComponent height={475} width={400} />
-            <Typography variant="body1" style={{ fontSize: 24 }}>
+            <BrainIdeaComponent height={425} width={350} />
+            <Typography variant="body1">
               Cardigan kickstarter single-origin coffee chambray salvia
               taxidermy before they sold out meggings readymade post-ironic
               tacos. Hella mumblecore kombucha, forage food truck vape heirloom
