@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSpring, animated, config } from "react-spring";
 import Controller from "../assets/icons/Controller.svg";
 import Mail from "../assets/icons/Mail.svg";
+import News from "../assets/icons/News.svg";
 import Avatar from "../assets/icons/Avatar.svg";
 import NewIdea from "../assets/icons/NewIdea.svg";
-import Blammo from "../assets/Blammo.svg";
 import RidingRocket from "../assets/characters/RidingRocket.svg";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -21,22 +22,53 @@ import Divider from "@material-ui/core/Divider";
 import AnimationWrapper from "./AnimationWrapper";
 import MustBeLoggedInModal from "./MustBeLoggedInModal";
 
+const primaryLight = "#8abdff";
+const primary = "#6d5dfc";
+const primaryDark = "#5b0eeb";
+const white = "#ffffff";
+const greyLight1 = "#e4ebf5";
+const greyLight2 = "#c8d0e7";
+const greyLight3 = "#bec8e4";
+const greyDark = "#9baacf";
+
+const shadow = `.3rem .3rem .6rem ${greyLight2}, -.2rem -.2rem .5rem ${white}`;
+const innerShadow = `inset .2rem .2rem .5rem ${greyLight2}, inset -.2rem -.2rem .5rem ${white}`;
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
   bar: {
-    background: theme.palette.background.paper,
-    borderBottom: `4px solid ${theme.palette.primary.main}`,
+    background: "#c8d0e775",
+    position: "fixed",
     padding: "8px 0px",
+    backdropFilter: "blur(15px)",
     marginBottom: theme.spacing(4),
-    boxShadow: "0px 0px 10px grey",
+    boxShadow: `.8rem .8rem 1.4rem ${theme.palette.background.greyLight3}, -.2rem -.2rem 1.8rem ${theme.palette.common.white}`,
   },
-  toolbar: {
-    borderBottom: `2px solid ${theme.palette.primary.main}`,
+  logo: {
+    fontFamily: "CREAMPUFF",
+    color: theme.palette.common.white,
+    webkitTextStroke: `1px ${theme.palette.typography.black}`,
+    textShadow: `3px 3px 0 ${theme.palette.typography.black}, -1px -1px 0 ${theme.palette.typography.black}, 1px 1px 0 ${theme.palette.typography.black}, 1px -1px 0 ${theme.palette.typography.black}, -1px 1px 0 ${theme.palette.typography.black}, 1px 1px 0 ${theme.palette.typography.black}`,
+    userSelect: "none",
+    WebkitTouchCallout: "none",
+    WebkitUserSelect: "none",
+    MozUserSelect: "none",
+    msUserSelect: "none",
   },
-  menuButton: {
+  menuIconButton: {
+    marginLeft: "10px",
+    marginRight: "10px",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  menuIcon: {
     fontSize: 30,
+    "&:hover": {
+      color: theme.palette.primary.main,
+    },
   },
   sectionDesktop: {
     display: "none",
@@ -55,8 +87,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px",
   },
   navIconLink: {
-    color: theme.palette.primary.dark,
-    marginLeft: "8px",
+    marginLeft: theme.spacing(2),
+  },
+  loginMenuItem: {
+    // backgroundColor: "#ff85aa42",
   },
 }));
 
@@ -64,16 +98,16 @@ const IconWrapper = ({ src, label }) => {
   const classes = useStyles();
 
   return (
-    <AnimationWrapper style={{ display: "flex", width: "100%" }}>
+    <AnimationWrapper
+      style={{ display: "flex", width: "100%", alignItems: "center" }}
+    >
       <img
         src={src}
         draggable={false}
         style={{ height: 30, width: 30 }}
         alt={`button to open ${label} page`}
       />
-      <Typography variant="h6" className={classes.navIconLink}>
-        {label}
-      </Typography>
+      <Typography className={classes.navIconLink}>{label}</Typography>
     </AnimationWrapper>
   );
 };
@@ -82,11 +116,26 @@ function NavBar() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const history = useHistory();
   const classes = useStyles();
+  const [visible, setVisible] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileAnchorEl, setMobileAnchorEl] = useState(null);
   const [isCreateGameModalOpen, setIsCreateGameModalOpen] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileAnchorEl);
+  const animatedStyles = useSpring({
+    opacity: visible ? 1 : 0,
+    config: config.molasses,
+  });
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 150) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+    });
+  }, []);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -137,11 +186,19 @@ function NavBar() {
         <IconWrapper src={NewIdea} label="Create a Game" />
       </MenuItem>
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
-        <IconWrapper src={Mail} label="Notifications" />
+        <IconWrapper src={News} label="What's New" />
       </MenuItem>
-      <MenuItem onClick={() => handleLinkClick("/icon-list")}>
-        <IconWrapper src={Avatar} label="My Account" />
-      </MenuItem>
+      {isLoggedIn && (
+        <>
+          <Divider />
+          <MenuItem onClick={() => handleLinkClick("/icon-list")}>
+            <IconWrapper src={Mail} label="Notifications" />
+          </MenuItem>
+          <MenuItem onClick={() => handleLinkClick("/icon-list")}>
+            <IconWrapper src={Avatar} label="My Account" />
+          </MenuItem>
+        </>
+      )}
     </Menu>
   );
 
@@ -160,14 +217,7 @@ function NavBar() {
       <MenuItem>About</MenuItem>
       <MenuItem>Contact</MenuItem>
       {!isLoggedIn && (
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          className={classes.button}
-        >
-          Log In/Sign Up
-        </Button>
+        <MenuItem className={classes.loginMenuItem}>Login/Signup</MenuItem>
       )}
       <Divider />
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
@@ -186,51 +236,41 @@ function NavBar() {
   );
 
   return (
-    <div className={classes.grow}>
+    <animated.div className={classes.grow} style={animatedStyles}>
       <MustBeLoggedInModal
-        title="Please Log In"
-        description="You must be logged in to create a new game."
+        title="Oops! Unauthorized."
+        description="Please login to create a new game."
         isOpen={isCreateGameModalOpen}
         handleClose={() => setIsCreateGameModalOpen(false)}
       />
       <AppBar position="static" className={classes.bar}>
         <Toolbar className={classes.toolbar}>
-          <img
-            src={RidingRocket}
-            alt="app logo"
-            draggable={false}
-            style={{
-              height: "60px",
-              width: "75px",
-              marginRight: "20px",
-              marginLeft: "20px",
-            }}
-          />
-          <img
-            src={Blammo}
-            alt="Blammo logo text"
-            draggable={false}
-            style={{ width: "250px", height: "70px" }}
-          />
+          <div
+            onClick={() => handleLinkClick("/")}
+            style={{ display: "flex", marginLeft: "10px", cursor: "pointer" }}
+          >
+            <img
+              src={RidingRocket}
+              alt="app logo"
+              draggable={false}
+              style={{
+                height: "50px",
+                width: "65px",
+                marginRight: "20px",
+              }}
+            />
+            <Typography className={classes.logo} variant="h3">
+              BLAMMMO!
+            </Typography>
+          </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button color="primary" size="small" className={classes.button}>
-              How to Use
-            </Button>
-            <Button color="primary" size="small" className={classes.button}>
-              About
-            </Button>
-            <Button color="primary" size="small" className={classes.button}>
-              Contact
-            </Button>
+            <Button>How to Use</Button>
+            <Button>About</Button>
+            <Button>Contact</Button>
             {!isLoggedIn && (
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                className={classes.button}
-              >
-                Log In/Sign Up
+              <Button variant="contained" color="primary">
+                Login/Signup
               </Button>
             )}
             <IconButton
@@ -239,9 +279,9 @@ function NavBar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              style={{ marginLeft: "10px", marginRight: "10px" }}
+              className={classes.menuIconButton}
             >
-              <MenuIcon className={classes.menuButton} />
+              <MenuIcon className={classes.menuIcon} />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -250,16 +290,16 @@ function NavBar() {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              style={{ marginLeft: "10px", marginRight: "10px" }}
+              className={classes.menuIconButton}
             >
-              <MoreIcon className={classes.menuButton} />
+              <MoreIcon className={classes.menuIcon} />
             </IconButton>
           </div>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </animated.div>
   );
 }
 

@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "FunBlob";
+  src: local("FunBlob"), url("./fonts/FunBlob/FunBlob.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "CREAMPUFF";
+  src: local("CREAMPUFF"),
+    url("./fonts/CREAMPUFF/CREAMPUFF.ttf") format("truetype");
+}
+
+:root {
+  --primary-light: #6dc9f7;
+  --primary: #0089ef;
+  --primary-dark: #0070c3;
+
+  --secondary-light: #ff85aa;
+  --secondary: #fa3571;
+  --secondary-dark: #9c2146;
+
+  --white: #ffffff;
+  --greyLight-1: #e4ebf5;
+  --greyLight-2: #c8d0e7;
+  --greyLight-3: #bec8e4;
+  --greyDark: #586279;
+
+  --typographyBlack: #272a33;
+  --typographyGrey: #3d4453;
+  --typographyWhite: #ffffff;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f9fd !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

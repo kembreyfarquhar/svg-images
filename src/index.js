@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./fonts/FunBlob/FunBlob.ttf";
+import "./fonts/CREAMPUFF/CREAMPUFF.ttf";
+import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
