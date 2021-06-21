@@ -48,7 +48,7 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <NavBar />
-          <div style={{ paddingTop: "100px" }} />
+          <div style={{ paddingTop: "124px" }} />
           <Switch>
             <Route exact path="/">
               <AsyncHome />

@@ -5,6 +5,7 @@ const primary = "#0089EF";
 const primaryDark = "#0070C3";
 const primaryTransparent = "#0087ef63";
 const secondaryTransparent = "#ff85aa42";
+const greyDarkTransparent = "#58627963";
 const secondaryLight = "#ff85aa";
 const secondary = "#FA3571";
 const secondaryDark = "#9c2146";
@@ -14,6 +15,7 @@ const greyLight3 = "#bec8e4";
 const greyDark = "#586279";
 const white = "#ffffff";
 const nearWhite = "#f5f9fd";
+export const typographyBlack = "#2f3031";
 
 const theme = createMuiTheme({
   palette: {
@@ -35,14 +37,21 @@ const theme = createMuiTheme({
       paper: nearWhite,
     },
     typography: {
-      black: "#272a33",
-      grey: "#3d4453",
+      black: typographyBlack,
+    },
+    transparent: {
+      primary: primaryTransparent,
+      secondary: secondaryTransparent,
+      greyDark: greyDarkTransparent,
     },
   },
   overrides: {
     MuiTypography: {
       root: {
-        color: "#272a33",
+        color: typographyBlack,
+      },
+      colorTextSecondary: {
+        color: greyDark,
       },
     },
     MuiBackdrop: {
@@ -90,36 +99,36 @@ const theme = createMuiTheme({
       contained: {
         backgroundColor: greyLight1,
         color: greyDark,
-        boxShadow: `0.3rem 0.3rem 0.6rem ${greyLight2}, -0.2rem -0.2rem 0.5rem ${white}`,
+        boxShadow: `inset -0.2rem -0.2rem 0.3rem ${greyLight3}, inset 0.2rem 0.2rem 0.3rem ${white}`,
         "&:hover": {
-          boxShadow: `inset 0.2rem 0.2rem 0.5rem ${greyLight2}, inset -0.2rem -0.2rem 0.5rem ${white}`,
+          boxShadow: "none",
           color: primary,
         },
       },
       containedPrimary: {
         backgroundColor: primary,
         color: nearWhite,
-        boxShadow: `0.1rem 0.1rem 0.3rem ${primaryDark}, -0.1rem -0.1rem 0.4rem ${primaryTransparent}`,
+        boxShadow: `inset -0.2rem -0.2rem 0.3rem ${primaryDark}, inset 0.2rem 0.2rem 0.3rem ${primaryLight}`,
         "&:hover": {
-          boxShadow: `inset 0.1rem 0.1rem 0.3rem ${primaryDark}, inset -0.1rem -0.1rem 0.4rem ${primaryTransparent}`,
+          boxShadow: "none",
           color: white,
         },
       },
       containedSecondary: {
         backgroundColor: secondary,
         color: nearWhite,
-        boxShadow: `0.1rem 0.1rem 0.3rem ${secondaryDark}, -0.1rem -0.1rem 0.4rem ${secondaryTransparent}`,
+        boxShadow: `inset -0.2rem -0.2rem 0.3rem ${secondaryDark}, inset 0.2rem 0.2rem 0.3rem ${secondaryLight}`,
         "&:hover": {
-          boxShadow: `inset 0.1rem 0.1rem 0.3rem ${secondaryDark}, inset -0.1rem -0.1rem 0.4rem ${secondaryTransparent}`,
+          boxShadow: "none",
           color: white,
         },
       },
       outlinedSecondary: {
-        boxShadow: `0.1rem 0.1rem 0.3rem ${secondaryLight}, -0.1rem -0.1rem 0.3rem ${secondaryTransparent}`,
+        boxShadow: `0.1rem 0.1rem 0.1rem ${secondaryLight}, -0.1rem -0.1rem 0.1rem ${secondaryTransparent}`,
         border: "none",
         "&:hover": {
           border: "none",
-          boxShadow: `inset 0.1rem 0.1rem 0.3rem ${secondaryLight}, inset -0.1rem -0.1rem 0.3rem ${secondaryTransparent}`,
+          boxShadow: "none",
         },
       },
     },

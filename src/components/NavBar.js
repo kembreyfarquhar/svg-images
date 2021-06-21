@@ -21,18 +21,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import Divider from "@material-ui/core/Divider";
 import AnimationWrapper from "./AnimationWrapper";
 import MustBeLoggedInModal from "./MustBeLoggedInModal";
-
-const primaryLight = "#8abdff";
-const primary = "#6d5dfc";
-const primaryDark = "#5b0eeb";
-const white = "#ffffff";
-const greyLight1 = "#e4ebf5";
-const greyLight2 = "#c8d0e7";
-const greyLight3 = "#bec8e4";
-const greyDark = "#9baacf";
-
-const shadow = `.3rem .3rem .6rem ${greyLight2}, -.2rem -.2rem .5rem ${white}`;
-const innerShadow = `inset .2rem .2rem .5rem ${greyLight2}, inset -.2rem -.2rem .5rem ${white}`;
+import { useViewport } from "../context/viewport";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -126,10 +115,12 @@ function NavBar() {
     opacity: visible ? 1 : 0,
     config: config.molasses,
   });
+  const { width } = useViewport();
+  const breakpoint = 1000;
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 150) {
+      if (window.scrollY > 250) {
         setVisible(false);
       } else {
         setVisible(true);
@@ -161,7 +152,7 @@ function NavBar() {
 
   const handleCreateGameClick = (path) => {
     handleMenuClose();
-    if (!isLoggedIn) {
+    if (isLoggedIn) {
       setIsCreateGameModalOpen(true);
     } else {
       handleLinkClick(path);
@@ -172,10 +163,10 @@ function NavBar() {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
@@ -227,11 +218,19 @@ function NavBar() {
         <IconWrapper src={NewIdea} label="Create a Game" />
       </MenuItem>
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
-        <IconWrapper src={Mail} label="Notifications" />
+        <IconWrapper src={News} label="What's New" />
       </MenuItem>
-      <MenuItem onClick={() => handleLinkClick("/icon-list")}>
-        <IconWrapper src={Avatar} label="My Account" />
-      </MenuItem>
+      {isLoggedIn && (
+        <>
+          <Divider />
+          <MenuItem onClick={() => handleLinkClick("/icon-list")}>
+            <IconWrapper src={Mail} label="Notifications" />
+          </MenuItem>
+          <MenuItem onClick={() => handleLinkClick("/icon-list")}>
+            <IconWrapper src={Avatar} label="My Account" />
+          </MenuItem>
+        </>
+      )}
     </Menu>
   );
 
@@ -247,18 +246,25 @@ function NavBar() {
         <Toolbar className={classes.toolbar}>
           <div
             onClick={() => handleLinkClick("/")}
-            style={{ display: "flex", marginLeft: "10px", cursor: "pointer" }}
+            style={{
+              display: "flex",
+              marginLeft: "10px",
+              cursor: "pointer",
+              alignItems: "center",
+            }}
           >
-            <img
-              src={RidingRocket}
-              alt="app logo"
-              draggable={false}
-              style={{
-                height: "50px",
-                width: "65px",
-                marginRight: "20px",
-              }}
-            />
+            {width > breakpoint && (
+              <img
+                src={RidingRocket}
+                alt="app logo"
+                draggable={false}
+                style={{
+                  height: "50px",
+                  width: "65px",
+                  marginRight: "20px",
+                }}
+              />
+            )}
             <Typography className={classes.logo} variant="h3">
               BLAMMMO!
             </Typography>
