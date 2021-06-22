@@ -1,4 +1,3 @@
-import BrainIdeaComponent from "../components/BrainIdeaComponent";
 import FlyingBookBrain from "../svgComponents/characters/FlyingBookBrain";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";

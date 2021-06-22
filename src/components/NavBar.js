@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSpring, animated, config } from "react-spring";
 import Controller from "../assets/icons/Controller.svg";
 import Mail from "../assets/icons/Mail.svg";
@@ -28,18 +28,18 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   bar: {
-    background: "#c8d0e775",
+    background: theme.palette.transparent.grey,
     position: "fixed",
-    padding: "8px 0px",
+    padding: `${theme.spacing(1.5)}px`,
     backdropFilter: "blur(15px)",
     marginBottom: theme.spacing(4),
-    boxShadow: `.8rem .8rem 1.4rem ${theme.palette.background.greyLight3}, -.2rem -.2rem 1.8rem ${theme.palette.common.white}`,
+    boxShadow: `.2rem .4rem 1.2rem ${theme.palette.background.greyLight3}, inset 0.2rem 0.6rem 1.2rem ${theme.palette.common.white}`,
   },
   logo: {
     fontFamily: "CREAMPUFF",
     color: theme.palette.common.white,
-    webkitTextStroke: `1px ${theme.palette.typography.black}`,
-    textShadow: `3px 3px 0 ${theme.palette.typography.black}, -1px -1px 0 ${theme.palette.typography.black}, 1px 1px 0 ${theme.palette.typography.black}, 1px -1px 0 ${theme.palette.typography.black}, -1px 1px 0 ${theme.palette.typography.black}, 1px 1px 0 ${theme.palette.typography.black}`,
+    webkitTextStroke: `1px ${theme.palette.typography.outline}`,
+    textShadow: `3px 3px 0 ${theme.palette.typography.outline}, -1px -1px 0 ${theme.palette.typography.outline}, 1px 1px 0 ${theme.palette.typography.outline}, 1px -1px 0 ${theme.palette.typography.outline}, -1px 1px 0 ${theme.palette.typography.outline}, 1px 1px 0 ${theme.palette.typography.outline}`,
     userSelect: "none",
     WebkitTouchCallout: "none",
     WebkitUserSelect: "none",
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
   menuIconButton: {
     marginLeft: "10px",
-    marginRight: "10px",
     "&:hover": {
       backgroundColor: "transparent",
     },
@@ -72,14 +71,8 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  button: {
-    margin: "10px",
-  },
   navIconLink: {
     marginLeft: theme.spacing(2),
-  },
-  loginMenuItem: {
-    // backgroundColor: "#ff85aa42",
   },
 }));
 
@@ -113,51 +106,60 @@ function NavBar() {
   const isMobileMenuOpen = Boolean(mobileAnchorEl);
   const animatedStyles = useSpring({
     opacity: visible ? 1 : 0,
-    config: config.molasses,
+    config: config.wobbly,
   });
   const { width } = useViewport();
   const breakpoint = 1000;
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 250) {
-        setVisible(false);
-      } else {
-        setVisible(true);
-      }
-    });
+  const toggleNavBar = useCallback(() => {
+    if (window.scrollY > 250) {
+      setVisible(false);
+    } else {
+      setVisible(true);
+    }
   }, []);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  useEffect(() => {
+    window.addEventListener("scroll", toggleNavBar);
+    return () => window.removeEventListener("scroll", toggleNavBar);
+  }, [toggleNavBar]);
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileAnchorEl(event.currentTarget);
-  };
+  const handleProfileMenuOpen = useCallback(
+    (e) => setAnchorEl(e.currentTarget),
+    []
+  );
 
-  const handleMobileMenuClose = () => {
-    setMobileAnchorEl(null);
-  };
+  const handleMobileMenuOpen = useCallback(
+    (e) => setMobileAnchorEl(e.currentTarget),
+    []
+  );
 
-  const handleMenuClose = () => {
+  const handleMobileMenuClose = useCallback(() => setMobileAnchorEl(null), []);
+
+  const handleMenuClose = useCallback(() => {
     setAnchorEl(null);
     handleMobileMenuClose();
-  };
+  }, [handleMobileMenuClose]);
 
-  const handleLinkClick = (path) => {
-    handleMenuClose();
-    history.push(path);
-  };
+  const handleLinkClick = useCallback(
+    (path) => {
+      handleMenuClose();
+      history.push(path);
+    },
+    [handleMenuClose, history]
+  );
 
-  const handleCreateGameClick = (path) => {
-    handleMenuClose();
-    if (isLoggedIn) {
-      setIsCreateGameModalOpen(true);
-    } else {
-      handleLinkClick(path);
-    }
-  };
+  const handleCreateGameClick = useCallback(
+    (path) => {
+      handleMenuClose();
+      if (isLoggedIn) {
+        setIsCreateGameModalOpen(true);
+      } else {
+        handleLinkClick(path);
+      }
+    },
+    [handleLinkClick, handleMenuClose, isLoggedIn]
+  );
 
   const menuId = "primary-navbar-menu";
   const renderMenu = (
@@ -173,7 +175,7 @@ function NavBar() {
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
         <IconWrapper src={Controller} label="Games" />
       </MenuItem>
-      <MenuItem onClick={() => handleCreateGameClick("/new-game")}>
+      <MenuItem onClick={() => handleCreateGameClick("/new-game/general")}>
         <IconWrapper src={NewIdea} label="Create a Game" />
       </MenuItem>
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
@@ -214,7 +216,7 @@ function NavBar() {
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
         <IconWrapper src={Controller} label="Games" />
       </MenuItem>
-      <MenuItem onClick={() => handleCreateGameClick("/new-game")}>
+      <MenuItem onClick={() => handleCreateGameClick("/new-game/general")}>
         <IconWrapper src={NewIdea} label="Create a Game" />
       </MenuItem>
       <MenuItem onClick={() => handleLinkClick("/icon-list")}>
@@ -248,7 +250,6 @@ function NavBar() {
             onClick={() => handleLinkClick("/")}
             style={{
               display: "flex",
-              marginLeft: "10px",
               cursor: "pointer",
               alignItems: "center",
             }}

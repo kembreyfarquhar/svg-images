@@ -23,6 +23,12 @@ import useCachedImages from "./hooks/useCachedImages";
 const AsyncHome = asyncComponent(() => import("./pages/HomePage"));
 const AsyncIconList = asyncComponent(() => import("./pages/IconList"));
 const AsyncNewGame = asyncComponent(() => import("./pages/NewGame"));
+const AsyncNewQuiz = asyncComponent(() =>
+  import("./components/newGameForms/NewQuiz")
+);
+const AsyncNewSomething = asyncComponent(() =>
+  import("./components/newGameForms/NewSomething")
+);
 
 const images = [
   RidingRocket,
@@ -56,8 +62,14 @@ function App() {
             <Route path="/icon-list">
               <AsyncIconList />
             </Route>
-            <Route path="/new-game">
+            <Route path="/new-game/general">
               <AsyncNewGame />
+            </Route>
+            <Route path="/new-game/quiz">
+              <AsyncNewQuiz />
+            </Route>
+            <Route path="/new-game/something">
+              <AsyncNewSomething />
             </Route>
           </Switch>
         </ThemeProvider>

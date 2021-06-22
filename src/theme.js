@@ -1,11 +1,13 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
+const outline = "#3A2C60";
 const primaryLight = "#6DC9F7";
 const primary = "#0089EF";
 const primaryDark = "#0070C3";
 const primaryTransparent = "#0087ef63";
 const secondaryTransparent = "#ff85aa42";
 const greyDarkTransparent = "#58627963";
+const greyTransparent = "#c8d0e775";
 const secondaryLight = "#ff85aa";
 const secondary = "#FA3571";
 const secondaryDark = "#9c2146";
@@ -38,11 +40,13 @@ const theme = createMuiTheme({
     },
     typography: {
       black: typographyBlack,
+      outline: outline,
     },
     transparent: {
       primary: primaryTransparent,
       secondary: secondaryTransparent,
       greyDark: greyDarkTransparent,
+      grey: greyTransparent,
     },
   },
   overrides: {
@@ -84,6 +88,17 @@ const theme = createMuiTheme({
         borderRadius: "1rem",
       },
     },
+    MuiFormControlLabel: {
+      label: {
+        fontWeight: "bold",
+      },
+    },
+    MuiInputLabel: {
+      shrink: {
+        transform: "translate(14px, -12px) scale(0.85) !important",
+        fontWeight: "bold",
+      },
+    },
     MuiButton: {
       root: {
         margin: "10px",
@@ -99,7 +114,7 @@ const theme = createMuiTheme({
       contained: {
         backgroundColor: greyLight1,
         color: greyDark,
-        boxShadow: `inset -0.2rem -0.2rem 0.3rem ${greyLight3}, inset 0.2rem 0.2rem 0.3rem ${white}`,
+        boxShadow: `inset -0.2rem -0.2rem 0.3rem ${greyLight3}, inset 0.2rem 0.2rem 0.3rem ${nearWhite}`,
         "&:hover": {
           boxShadow: "none",
           color: primary,
@@ -129,6 +144,17 @@ const theme = createMuiTheme({
         "&:hover": {
           border: "none",
           boxShadow: "none",
+        },
+      },
+      outlined: {
+        boxShadow: `0.1rem 0.1rem 0.1rem ${greyLight2}, -0.1rem -0.1rem 0.1rem ${greyLight1}`,
+        border: "none",
+        color: greyDark,
+        backgroundColor: white,
+        "&:hover": {
+          border: "none",
+          boxShadow: "none",
+          color: typographyBlack,
         },
       },
     },
