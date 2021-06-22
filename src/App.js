@@ -1,7 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import asyncComponent from "./components/AsyncComponent";
 import NavBar from "./components/NavBar";
-import "./App.css";
 import theme from "./theme";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ViewportProvider } from "./context/viewport";
@@ -20,7 +20,7 @@ import Trending from "./assets/icons/Trending.svg";
 import Blammo from "./assets/Blammo.svg";
 import useCachedImages from "./hooks/useCachedImages";
 
-const AsyncHome = asyncComponent(() => import("./pages/HomePage"));
+import Home from "./pages/HomePage";
 const AsyncIconList = asyncComponent(() => import("./pages/IconList"));
 const AsyncNewGame = asyncComponent(() => import("./pages/NewGame"));
 const AsyncNewQuiz = asyncComponent(() =>
@@ -47,31 +47,38 @@ const images = [
 
 function App() {
   const isLoading = useCachedImages(images);
+  const isPlaying = useSelector((state) => state.gamePlay.isPlaying);
 
   if (isLoading) return <h1>Loading...</h1>;
   return (
     <ViewportProvider>
       <Router>
         <ThemeProvider theme={theme}>
-          <NavBar />
-          <div style={{ paddingTop: "124px" }} />
-          <Switch>
-            <Route exact path="/">
-              <AsyncHome />
-            </Route>
-            <Route path="/icon-list">
-              <AsyncIconList />
-            </Route>
-            <Route path="/new-game/general">
-              <AsyncNewGame />
-            </Route>
-            <Route path="/new-game/quiz">
-              <AsyncNewQuiz />
-            </Route>
-            <Route path="/new-game/something">
-              <AsyncNewSomething />
-            </Route>
-          </Switch>
+          <div style={{ height: "100%" }}>
+            {!isPlaying && (
+              <>
+                <NavBar />
+                <div style={{ paddingTop: "124px" }} />
+              </>
+            )}
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/icon-list">
+                <AsyncIconList />
+              </Route>
+              <Route path="/new-game/general">
+                <AsyncNewGame />
+              </Route>
+              <Route path="/new-game/quiz">
+                <AsyncNewQuiz />
+              </Route>
+              <Route path="/new-game/something">
+                <AsyncNewSomething />
+              </Route>
+            </Switch>
+          </div>
         </ThemeProvider>
       </Router>
     </ViewportProvider>
