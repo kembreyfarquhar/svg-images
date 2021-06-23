@@ -7,7 +7,7 @@ const primaryDark = "#0070C3";
 const primaryTransparent = "#0087ef63";
 const secondaryTransparent = "#ff85aa42";
 const greyDarkTransparent = "#58627963";
-const greyTransparent = "#c8d0e775";
+const greyTransparent = "#bec8e473;";
 const secondaryLight = "#ff85aa";
 const secondary = "#FA3571";
 const secondaryDark = "#9c2146";
@@ -58,6 +58,11 @@ const theme = createMuiTheme({
         color: greyDark,
       },
     },
+    MuiFormLabel: {
+      root: {
+        color: typographyBlack,
+      },
+    },
     MuiBackdrop: {
       root: {
         backdropFilter: "blur(1.5px)",
@@ -68,7 +73,7 @@ const theme = createMuiTheme({
         backgroundColor: nearWhite,
       },
       rounded: {
-        borderRadius: "1rem",
+        borderRadius: "0.8rem",
       },
       elevation8: {
         boxShadow: `0.3rem 0.5rem 1.3rem ${greyLight3}, inset -0.2rem -0.2rem 1rem ${greyLight1}`,
@@ -95,7 +100,7 @@ const theme = createMuiTheme({
     },
     MuiInputLabel: {
       shrink: {
-        transform: "translate(14px, -12px) scale(0.85) !important",
+        transform: "translate(14px, -13px) scale(0.85) !important",
         fontWeight: "bold",
       },
     },

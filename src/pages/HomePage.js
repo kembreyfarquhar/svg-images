@@ -75,7 +75,7 @@ function HomePage() {
           width: "100%",
           background: "#e4ebf5",
           margin: "80px 0",
-          padding: "7rem 0 4rem 0",
+          padding: "5rem 0 4rem 0",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

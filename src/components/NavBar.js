@@ -6,6 +6,7 @@ import News from "../assets/icons/News.svg";
 import Avatar from "../assets/icons/Avatar.svg";
 import NewIdea from "../assets/icons/NewIdea.svg";
 import RidingRocket from "../assets/characters/RidingRocket.svg";
+import Explode from "../assets/Explode.svg";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   bar: {
     background: theme.palette.transparent.grey,
     position: "fixed",
-    padding: `${theme.spacing(1.5)}px`,
-    backdropFilter: "blur(15px)",
+    padding: `0 ${theme.spacing(1.5)}px`,
+    backdropFilter: "blur(10px)",
     marginBottom: theme.spacing(4),
-    boxShadow: `.2rem .4rem 1.2rem ${theme.palette.background.greyLight3}, inset 0.2rem 0.6rem 1.2rem ${theme.palette.common.white}`,
+    boxShadow: `.2rem .2rem 0.8rem ${theme.palette.background.greyLight3}, inset 0.2rem 0.6rem 1rem ${theme.palette.common.white}`,
   },
   logo: {
     fontFamily: "CREAMPUFF",
@@ -256,13 +257,12 @@ function NavBar() {
           >
             {width > breakpoint && (
               <img
-                src={RidingRocket}
+                src={Explode}
                 alt="app logo"
                 draggable={false}
                 style={{
-                  height: "50px",
-                  width: "65px",
-                  marginRight: "20px",
+                  height: "80px",
+                  width: "80px",
                 }}
               />
             )}

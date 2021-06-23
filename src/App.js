@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import asyncComponent from "./components/AsyncComponent";
 import NavBar from "./components/NavBar";
 import theme from "./theme";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { ViewportProvider } from "./context/viewport";
 import { ThemeProvider } from "@material-ui/core/styles";
 import RidingRocket from "./assets/characters/RidingRocket.svg";
@@ -19,7 +19,6 @@ import ThumbsUp from "./assets/icons/ThumbsUp.svg";
 import Trending from "./assets/icons/Trending.svg";
 import Blammo from "./assets/Blammo.svg";
 import useCachedImages from "./hooks/useCachedImages";
-
 import Home from "./pages/HomePage";
 const AsyncIconList = asyncComponent(() => import("./pages/IconList"));
 const AsyncNewGame = asyncComponent(() => import("./pages/NewGame"));
@@ -52,35 +51,33 @@ function App() {
   if (isLoading) return <h1>Loading...</h1>;
   return (
     <ViewportProvider>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <div style={{ height: "100%" }}>
-            {!isPlaying && (
-              <>
-                <NavBar />
-                <div style={{ paddingTop: "124px" }} />
-              </>
-            )}
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/icon-list">
-                <AsyncIconList />
-              </Route>
-              <Route path="/new-game/general">
-                <AsyncNewGame />
-              </Route>
-              <Route path="/new-game/quiz">
-                <AsyncNewQuiz />
-              </Route>
-              <Route path="/new-game/something">
-                <AsyncNewSomething />
-              </Route>
-            </Switch>
-          </div>
-        </ThemeProvider>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <div style={{ height: "100%" }}>
+          {!isPlaying && (
+            <>
+              <NavBar />
+              <div style={{ paddingTop: "124px" }} />
+            </>
+          )}
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/icon-list">
+              <AsyncIconList />
+            </Route>
+            <Route path="/new-game/general">
+              <AsyncNewGame />
+            </Route>
+            <Route path="/new-game/quiz">
+              <AsyncNewQuiz />
+            </Route>
+            <Route path="/new-game/something">
+              <AsyncNewSomething />
+            </Route>
+          </Switch>
+        </div>
+      </ThemeProvider>
     </ViewportProvider>
   );
 }

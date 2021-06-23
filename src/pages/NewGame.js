@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import classnames from "classnames";
 import { setGameForm } from "../store/newGame/newGameActions";
+import { useSpring, animated, config } from "react-spring";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,24 +23,27 @@ import {
   RadioGroup,
   Select,
   Button,
+  Box,
 } from "@material-ui/core";
 import { useViewport } from "../context/viewport";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  flexCenter: {
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    padding: "0 94px",
-    [theme.breakpoints.up("lg")]: {
-      padding: 0,
+    justifyContent: "center",
+  },
+  container: {
+    flexDirection: "column-reverse",
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
     },
   },
-  header: {
-    margin: "0 10px",
-    [theme.breakpoints.up("sm")]: {
-      margin: "0 24px",
-    },
+  form: { flexGrow: 1, marginTop: "40px", marginRight: "40px" },
+  gridContainer: {
+    backgroundColor: "#c8d0e749",
+    borderRadius: "0.7rem",
+    boxShadow: `.3rem .3rem .6rem ${theme.palette.background.greyLight2}, -.2rem -.2rem .5rem ${theme.palette.common.white}`,
   },
   textField: {
     width: "100%",
@@ -48,22 +53,16 @@ const useStyles = makeStyles((theme) => ({
   },
   photoField: {
     width: "100%",
+    cursor: "pointer",
     "& input": {
       flexGrow: 1,
       width: "auto",
       marginLeft: "8px",
+      cursor: "pointer",
     },
   },
-  photoInputContainer: {
-    borderRadius: theme.spacing(0.5),
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: `${theme.spacing(2)}px ${theme.spacing(1.75)}px`,
-    border: "1px solid rgba(0, 0, 0, 0.23)",
-    "&:hover": {
-      border: "1px solid rgba(0, 0, 0, 0.80)",
-    },
+  item: {
+    paddingTop: `${theme.spacing(4)}px !important`,
   },
 }));
 
@@ -95,8 +94,16 @@ const NewGame = () => {
   const [tagInputValue, setTagInputValue] = useState("");
   const [path, setPath] = useState("/new-game/quiz");
   const isPremiumUser = false;
+  const [animatedContainerStyle, animate] = useSpring(() => ({
+    from: { x: 500, opacity: 0 },
+    to: { x: 0, opacity: 1 },
+    config: config.wobbly,
+    delay: 200,
+  }));
   const { width } = useViewport();
   const breakpoint = 1200;
+
+  useEffect(() => animate(), []);
 
   const formik = useFormik({
     initialValues: {
@@ -142,21 +149,21 @@ const NewGame = () => {
   };
 
   return (
-    <>
-      <Container
-        style={{
-          display: "flex",
-          flexDirection: width < breakpoint ? "column-reverse" : "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <form
-          style={{ flexGrow: 1, marginTop: "40px", marginRight: "40px" }}
-          onSubmit={formik.handleSubmit}
-        >
-          <Grid container spacing={3} alignItems="flex-start" justify="center">
-            <Grid item xs={width < breakpoint ? 12 : 6}>
+    <animated.div style={animatedContainerStyle}>
+      <Container className={classnames(classes.flexCenter, classes.container)}>
+        <form className={classes.form} onSubmit={formik.handleSubmit}>
+          <Grid
+            container
+            spacing={3}
+            alignItems="flex-start"
+            justify="center"
+            className={classes.gridContainer}
+          >
+            <Grid
+              item
+              xs={width < breakpoint ? 12 : 6}
+              className={classes.item}
+            >
               <TextField
                 placeholder="What's it called?"
                 id="title"
@@ -174,7 +181,11 @@ const NewGame = () => {
                 helperText={formik.touched.title && formik.errors.title}
               />
             </Grid>
-            <Grid item xs={width < breakpoint ? 12 : 6}>
+            <Grid
+              item
+              xs={width < breakpoint ? 12 : 6}
+              className={classes.item}
+            >
               <FormControl
                 variant="outlined"
                 error={formik.touched.gameImg && Boolean(formik.errors.gameImg)}
@@ -199,7 +210,7 @@ const NewGame = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.item}>
               <TextField
                 label="Description"
                 id="description"
@@ -222,7 +233,11 @@ const NewGame = () => {
                 }
               />
             </Grid>
-            <Grid item xs={width < breakpoint ? 12 : 6}>
+            <Grid
+              item
+              xs={width < breakpoint ? 12 : 6}
+              className={classes.item}
+            >
               <FormControl
                 variant="outlined"
                 error={formik.touched.type && Boolean(formik.errors.type)}
@@ -250,7 +265,11 @@ const NewGame = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={width < breakpoint ? 12 : 6}>
+            <Grid
+              item
+              xs={width < breakpoint ? 12 : 6}
+              className={classes.item}
+            >
               <Autocomplete
                 multiple
                 freeSolo
@@ -286,70 +305,74 @@ const NewGame = () => {
                 )}
               />
             </Grid>
-            <Grid item>
-              <Tooltip
-                title={
-                  isPremiumUser
-                    ? "Select game privacy."
-                    : "Only premium accounts can have private games."
-                }
-                placement="top"
-              >
-                <RadioGroup
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                  aria-label="game-privacy"
-                  name="privacy"
-                  id="privacy"
-                  error={
-                    formik.touched.privacy && Boolean(formik.errors.privacy)
+            <Grid item xs={12} className={classes.item}>
+              <Box>
+                <Tooltip
+                  title={
+                    isPremiumUser
+                      ? "Select game privacy."
+                      : "Only premium accounts can have private games."
                   }
-                  value={formik.values.privacy}
-                  onChange={formik.handleChange}
+                  placement="top"
                 >
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <FormControlLabel
-                      value="public"
-                      control={<Radio />}
-                      label="Public"
-                      labelPlacement="end"
-                    />
-                    <Typography style={{ color: "#586279", fontSize: "13px" }}>
-                      Everyone can see public games.
-                    </Typography>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <FormControlLabel
-                      value="private"
-                      control={<Radio />}
-                      label="Private"
-                      disabled={!isPremiumUser}
-                    />
-                    <Typography
-                      style={{
-                        color: isPremiumUser ? "#586279" : "rgba(0,0,0,0.38",
-                        fontSize: "13px",
-                      }}
-                    >
-                      Only you can view private games.
-                    </Typography>
-                  </div>
-                </RadioGroup>
-              </Tooltip>
+                  <RadioGroup
+                    aria-label="game-privacy"
+                    name="privacy"
+                    id="privacy"
+                    error={
+                      formik.touched.privacy && Boolean(formik.errors.privacy)
+                    }
+                    value={formik.values.privacy}
+                    onChange={formik.handleChange}
+                  >
+                    <div className={classes.flexCenter}>
+                      <FormControlLabel
+                        value="public"
+                        control={<Radio />}
+                        label="Public"
+                        labelPlacement="end"
+                      />
+                      <Typography
+                        style={{ color: "#586279", fontSize: "13px" }}
+                      >
+                        Everyone can see public games.
+                      </Typography>
+                    </div>
+                    <div className={classes.flexCenter}>
+                      <FormControlLabel
+                        value="private"
+                        control={<Radio />}
+                        label="Private"
+                        disabled={!isPremiumUser}
+                      />
+                      <Typography
+                        style={{
+                          color: isPremiumUser ? "#586279" : "rgba(0,0,0,0.38",
+                          fontSize: "13px",
+                        }}
+                      >
+                        Only you can view private games.
+                      </Typography>
+                    </div>
+                  </RadioGroup>
+                </Tooltip>
+              </Box>
             </Grid>
             <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                style={{ height: "52px", marginBottom: 0 }}
-              >
-                Next
-              </Button>
+              <Box style={{ display: "flex", justifyContent: "center" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  style={{
+                    height: "52px",
+                    marginBottom: 0,
+                  }}
+                >
+                  Next
+                </Button>
+              </Box>
             </Grid>
             <Grid item>
               <Button variant="outlined" style={{ marginTop: 0 }} size="large">
@@ -375,7 +398,7 @@ const NewGame = () => {
           />
         </div>
       </Container>
-    </>
+    </animated.div>
   );
 };
 
