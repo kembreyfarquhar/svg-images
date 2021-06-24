@@ -24,6 +24,7 @@ const AsyncIconList = asyncComponent(() => import('./pages/IconList'));
 const AsyncNewGame = asyncComponent(() => import('./pages/NewGame'));
 const AsyncNewQuiz = asyncComponent(() => import('./components/newGameForms/NewQuiz'));
 const AsyncNewSomething = asyncComponent(() => import('./components/newGameForms/NewSomething'));
+const AsyncAuth = asyncComponent(() => import('./pages/AuthPage'));
 
 const images = [
 	RidingRocket,
@@ -65,6 +66,9 @@ function App() {
 						</Route>
 						<Route path='/new-game/something'>
 							<AsyncNewSomething />
+						</Route>
+						<Route path='/auth'>
+							<AsyncAuth />
 						</Route>
 					</Switch>
 				</div>

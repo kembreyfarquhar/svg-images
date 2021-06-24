@@ -279,7 +279,12 @@ function NavBar() {
 							More
 						</Button>
 						{!isLoggedIn && (
-							<Button variant='contained' color='primary'>
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={() => {
+									history.push('/auth?login=true');
+								}}>
 								Login/Signup
 							</Button>
 						)}
