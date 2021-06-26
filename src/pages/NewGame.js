@@ -18,7 +18,7 @@ import {
 	Container,
 	Grid,
 	InputLabel,
-	OutlinedInput,
+	Input,
 	Radio,
 	RadioGroup,
 	Select,
@@ -47,21 +47,11 @@ const useStyles = makeStyles(theme => ({
 	gridContainer: {
 		// backgroundColor: '#bec8e450',
 		borderRadius: '0.3rem',
-		boxShadow: `.7rem .7rem 1rem ${theme.palette.transparent.grey}, -.7rem -.7rem 1rem ${theme.palette.transparent.white}`,
+		boxShadow: `.5rem .5rem 0.8rem ${theme.palette.background.greyLight3}, -.1rem -.1rem 1rem ${theme.palette.common.white}`,
 	},
 	textField: {
 		width: '100%',
 		'& div': { background: theme.palette.common.white },
-	},
-	photoField: {
-		width: '100%',
-		cursor: 'pointer',
-		'& input': {
-			flexGrow: 1,
-			width: 'auto',
-			marginLeft: '8px',
-			cursor: 'pointer',
-		},
 	},
 	item: { paddingTop: `${theme.spacing(4)}px !important` },
 }));
@@ -162,10 +152,9 @@ const NewGame = () => {
 								name='title'
 								label='Title *'
 								autoComplete='off'
-								className={classes.textField}
-								variant='outlined'
 								InputLabelProps={{ shrink: true }}
 								autoFocus
+								fullWidth
 								value={formik.values.title}
 								inputProps={{ maxLength: 32 }}
 								onChange={formik.handleChange}
@@ -174,14 +163,11 @@ const NewGame = () => {
 							/>
 						</Grid>
 						<Grid item xs={width < breakpoint ? 12 : 6} className={classes.item}>
-							<FormControl
-								variant='outlined'
-								error={formik.touched.gameImg && Boolean(formik.errors.gameImg)}
-								className={classes.textField}>
+							<FormControl error={formik.touched.gameImg && Boolean(formik.errors.gameImg)}>
 								<InputLabel htmlFor='gameImg' shrink>
 									Cover Photo
 								</InputLabel>
-								<OutlinedInput
+								<Input
 									type='file'
 									className={classes.photoField}
 									value={formik.values.gameImg}
@@ -200,10 +186,9 @@ const NewGame = () => {
 								id='description'
 								name='description'
 								placeholder="What's it about?"
-								className={classes.textField}
-								variant='outlined'
 								InputLabelProps={{ shrink: true }}
 								multiline
+								fullWidth
 								rowsMax={2}
 								inputProps={{ maxLength: 100 }}
 								value={formik.values.description}
@@ -243,17 +228,12 @@ const NewGame = () => {
 										label='Tags'
 										InputLabelProps={{ shrink: true }}
 										placeholder='Separated by a comma'
-										variant='outlined'
-										className={classes.textField}
 									/>
 								)}
 							/>
 						</Grid>
 						<Grid item xs={width < breakpoint ? 12 : 6} className={classes.item}>
-							<FormControl
-								variant='outlined'
-								error={formik.touched.type && Boolean(formik.errors.type)}
-								className={classes.textField}>
+							<FormControl fullWidth error={formik.touched.type && Boolean(formik.errors.type)}>
 								<InputLabel htmlFor='type'>Game Type *</InputLabel>
 								<Select
 									native

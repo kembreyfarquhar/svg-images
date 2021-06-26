@@ -63,3 +63,7 @@ code {
 .PrivateNotchedOutline-legendNotched-22 {
 	max-width: 0 !important;
 }
+
+.MuiAutocomplete-inputRoot[class*='MuiInput-root'] {
+	padding: 4px !important;
+}

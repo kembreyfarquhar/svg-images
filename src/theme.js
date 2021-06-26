@@ -117,14 +117,30 @@ const theme = createMuiTheme({
 		},
 		MuiInputLabel: {
 			shrink: {
-				transform: 'translate(14px, -13px) scale(0.85) !important',
+				transform: 'translate(10px, -4px) scale(0.95) !important',
 				fontWeight: 'bold',
 			},
 		},
+		MuiInput: {
+			underline: {
+				padding: '4px',
+				borderRadius: '0.2rem',
+				boxShadow: `0.2rem 0.2rem 0.7rem ${greyLight3}, -0.2rem -0.2rem 0.3rem ${white}`,
+			},
+			input: {
+				padding: '12px !important',
+				'&:focus': {
+					borderRadius: '0.2rem',
+					boxShadow: `inset 0.2rem 0.2rem 0.7rem ${greyLight3}, inset -0.2rem -0.2rem 0.7rem ${white}`,
+				},
+			},
+		},
+
 		MuiButton: {
 			root: {
 				margin: '10px',
 				transition: 'all .5s ease',
+				borderRadius: '0.5rem',
 			},
 			text: {
 				color: greyDark,
@@ -145,7 +161,7 @@ const theme = createMuiTheme({
 			containedPrimary: {
 				backgroundColor: primary,
 				color: nearWhite,
-				boxShadow: `inset -0.2rem -0.2rem 0.3rem ${primaryDark}, inset 0.2rem 0.2rem 0.3rem ${primaryLight}`,
+				boxShadow: `0.35rem 0.35rem 0.4rem ${greyLight3}, -0.3rem -0.3rem 0.7rem ${white}`,
 				'&:hover': {
 					boxShadow: 'none',
 					color: white,
@@ -169,10 +185,10 @@ const theme = createMuiTheme({
 				},
 			},
 			outlined: {
-				boxShadow: `0.1rem 0.1rem 0.1rem ${greyLight2}, -0.1rem -0.1rem 0.1rem ${greyLight1}`,
+				boxShadow: `0.2rem 0.2rem 0.7rem ${greyLight3}, -0.2rem -0.2rem 0.7rem ${white}`,
 				border: 'none',
 				color: greyDark,
-				backgroundColor: white,
+				backgroundColor: 'transparent',
 				'&:hover': {
 					border: 'none',
 					boxShadow: 'none',

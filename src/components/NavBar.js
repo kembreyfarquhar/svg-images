@@ -22,6 +22,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
 import AnimationWrapper from './AnimationWrapper';
 import MustBeLoggedInModal from './MustBeLoggedInModal';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useViewport } from '../context/viewport';
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 		height: '5rem',
 		backdropFilter: 'blur(10px)',
 		marginBottom: theme.spacing(4),
-		boxShadow: `.2rem .2rem 0.8rem ${theme.palette.background.greyLight3}, inset 0.2rem 0.4rem 0.8rem ${theme.palette.common.white}`,
+		boxShadow: `.2rem .2rem 0.8rem ${theme.palette.background.greyLight3}, inset 0.2rem 0.2rem 0.8rem ${theme.palette.common.white}`,
 	},
 	logo: {
 		fontFamily: 'CREAMPUFF',
@@ -74,6 +75,17 @@ const useStyles = makeStyles(theme => ({
 	},
 	navIconLink: {
 		marginLeft: theme.spacing(2),
+	},
+	loginContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		color: theme.palette.background.greyDark,
+		'&:hover': {
+			color: theme.palette.primary.main,
+		},
+	},
+	loginIcon: {
+		fontSize: 20,
 	},
 }));
 
@@ -279,9 +291,15 @@ function NavBar() {
 							More
 						</Button>
 						{!isLoggedIn && (
-							<Button variant='contained' color='primary'>
-								Login/Signup
-							</Button>
+							<>
+								<div className={classes.loginContainer}>
+									<ExitToAppIcon className={classes.loginIcon} />
+									<Button style={{ margin: 0, paddingLeft: 0 }}>Login</Button>
+								</div>
+								<Button variant='contained' color='primary'>
+									Try for free
+								</Button>
+							</>
 						)}
 						<IconButton
 							edge='end'
